@@ -5,6 +5,7 @@ Cookiecutter created project from [template](https://github.com/microsoft/Distri
 
 ## Instructions
 
+```
 sudo usermod -aG docker $USER
 newgrp docker 
 make build
@@ -12,6 +13,7 @@ make run
 # may need to fix path: export PYTHONPATH
 # inv --complete
 inv pytorch-i3d.submit.remote.submit
+```
 
 ## Issues
 
