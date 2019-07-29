@@ -156,11 +156,13 @@ def train(gradient_update_steps, epoch, model, train_sampler, train_loader, opti
 
     # Write to tensorboard
     if summary_writer:
-        metrics = {'loc_loss': train_loc_loss.avg, 'cls_loss': train_cls_loss.avg, 'loss': train_loss.avg}
-        run.log_row("Training metrics", epoch=epoch, **metrics)
         summary_writer.add_scalar("train/loc_loss", train_loc_loss.avg, epoch)
         summary_writer.add_scalar("train/cls_loss", train_cls_loss.avg, epoch)
         summary_writer.add_scalar("train/loss", train_loss.avg, epoch)
+    # Write to Azure
+    if run:
+        metrics = {'loc_loss': train_loc_loss.avg, 'cls_loss': train_cls_loss.avg, 'loss': train_loss.avg}
+        run.log_row("Training metrics", epoch=epoch, **metrics)
     # Log to stdout
     #logger.info('Train: Avg Loc Loss: {:.4f} Avg Cls Loss: {:.4f} Avg Loss: {:.4f}'.format(
     #    train_loc_loss.avg,
@@ -222,11 +224,13 @@ def validate(epoch, model, val_loader, logger,
 
     # Write to tensorboard
     if summary_writer:
-        metrics = {'loc_loss': val_loc_loss.avg, 'cls_loss': val_cls_loss.avg, 'loss': val_loss.avg}
-        run.log_row("Validation metrics", epoch=epoch, **metrics)
         summary_writer.add_scalar("val/loc_loss", val_loc_loss.avg, epoch)
         summary_writer.add_scalar("val/cls_loss", val_cls_loss.avg, epoch)
         summary_writer.add_scalar("val/loss", val_loss.avg, epoch)
+    # Write to azure
+    if run:
+        metrics = {'loc_loss': val_loc_loss.avg, 'cls_loss': val_cls_loss.avg, 'loss': val_loss.avg}
+        run.log_row("Validation metrics", epoch=epoch, **metrics)
     # Log to stdout
     logger.info('Val: Avg Loc Loss: {:.4f} Avg Cls Loss: {:.4f} Avg Loss: {:.4f}'.format(
         val_loc_loss.avg,
